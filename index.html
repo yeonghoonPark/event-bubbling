@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h1>1. Event Bubbling</h1>
+      <p>
+        특정 화면 요소에서 이벤트가 발생했을 때 해당 이벤트가 더 상위의
+        요소(부모)들로 전달되어 가는 특성을 의미한다.
+        <br />
+        - 하위에서 상위요소로의 이벤트 전파 방식을 이벤트 버블링이라고 한다.
+      </p>
+      <div class="bubbling one" style="background-color: red">
+        <p>one (click)</p>
+        <div class="bubbling two" style="background-color: orange">
+          <p>two (click)</p>
+          <div class="bubbling three" style="background-color: yellow">
+            <p>three (click)</p>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <h1>2. Event Capture</h1>
+      <p>
+        이벤트 캡쳐는 이벤트 버블링과 반대 반향으로 진행되는 이벤트 전파
+        방식이다.
+        <br />
+        - 상위에서 하위요소로의 이벤트 전파 방식을 이벤트 캡쳐라고 한다.
+      </p>
+      <div class="capture one" style="background-color: green">
+        <p>one (click)</p>
+        <div class="capture two" style="background-color: blue">
+          <p>two (click)</p>
+          <div class="capture three" style="background-color: blueviolet">
+            <p>three (click)</p>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <h1>3. event.stopPropagation()</h1>
+      <p>
+        해당 API는 이벤트가 전파되는 것을 막는다, 이벤트 버블링의 경우 클릭한
+        요소의 이벤트만 발생시키고 상위(부모)요소로 이벤트를 전파하는 것을
+        멈춘다, 반대로 이벤트 캡쳐에서 사용할 경우 요소의 최상위에서만 이벤트를
+        동작시키고 하위 요소들로 이벤트를 전파하지 않는다.
+        <br />
+        <ul>
+          <li>
+            stopPropagation을 사용할 경우 = 
+          <br> 
+          (이벤트 버블링: 클릭한 요소의 이벤트만 발생) 
+          <br> 
+          (이벤트 캡쳐링: 최상위 요소만 동작)
+          </li>
+        </ul>
+        
+      </p>
+    </div>
+
+    <script>
+      const divsB = document.querySelectorAll('.bubbling');
+      const divsC = document.querySelectorAll('.capture');
+
+      const logEvent = (event) => {
+        event.stopPropagation();
+        console.log(event.currentTarget.className);
+      };
+
+      divsB.forEach((div) => {
+        div.addEventListener('click', logEvent);
+      });
+
+      divsC.forEach((div) => {
+        div.addEventListener('click', logEvent, { capture: true });
+      });
+    </script>
+  </body>
+</html>
